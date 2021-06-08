@@ -26,6 +26,11 @@ function(add_thrust_example EXAMPLE)
         PROPERTIES
             RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples/"
     )
+    install(
+        TARGETS ${EXAMPLE_TARGET}
+        DESTINATION "rocThrust/bin/"
+        COMPONENT "clients"
+    )
 endfunction()
 
 

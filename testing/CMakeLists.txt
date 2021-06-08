@@ -79,6 +79,11 @@ function(add_thrust_test TEST)
         PROPERTIES
             LABELS upstream
     )
+    install(
+        TARGETS ${TEST_TARGET}
+        DESTINATION "rocThrust/bin/"
+        COMPONENT "clients"
+    )
 endfunction()
 
 # ****************************************************************************

@@ -67,6 +67,11 @@ function(add_rocthrust_test TEST)
                 LABELS "hip"
         )
     endif()
+    install(
+        TARGETS ${TEST_TARGET}
+        DESTINATION "rocThrust/bin/"
+        COMPONENT "clients"
+    )
 endfunction()
 
 # ****************************************************************************

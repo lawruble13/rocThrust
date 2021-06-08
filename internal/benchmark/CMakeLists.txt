@@ -26,6 +26,11 @@ function(add_thrust_benchmark BENCHMARK)
         PROPERTIES
             RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/benchmarks/"
     )
+    install(
+        TARGETS ${BENCHMARK_TARGET}
+        DESTINATION "rocThrust/bin/"
+        COMPONENT "clients"
+    )
 endfunction()
 
 # ****************************************************************************
