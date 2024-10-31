@@ -53,10 +53,17 @@ if(HIP_COMPILER STREQUAL "nvcc")
     )
     target_sources(testframework PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/unittest/cuda/testframework.cu)
 elseif(HIP_COMPILER STREQUAL "clang")
-    set_source_files_properties(unittest/hip/testframework.cu
-    PROPERTIES
-        LANGUAGE CXX
-    )
+    if(USE_HIPCXX)
+        set_source_files_properties(unittest/hip/testframework.cu
+        PROPERTIES
+            LANGUAGE HIP
+        )
+    else()
+        set_source_files_properties(unittest/hip/testframework.cu
+        PROPERTIES
+            LANGUAGE CXX
+        )
+    endif()
     target_sources(testframework PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/unittest/hip/testframework.cu)
 endif()
 
@@ -76,10 +83,17 @@ function(add_thrust_test TEST)
     # This code path used to add "-x c++" to the compiler flags too, but that was
     # superfluous as "-x hip" was already present on the command-line due to linking to
     # hip::device transitively from roc::rocprim_hip.
-    set_source_files_properties(${TEST_SOURCE}
-        PROPERTIES
-            LANGUAGE CXX
-    )
+    if(USE_HIPCXX)
+        set_source_files_properties(${TEST_SOURCE}
+            PROPERTIES
+                LANGUAGE HIP
+        )
+    else()
+        set_source_files_properties(${TEST_SOURCE}
+            PROPERTIES
+                LANGUAGE CXX
+        )
+    endif()
     if(NOT CMAKE_VERSION VERSION_LESS 3.13)
         add_executable(${TEST_TARGET} ${TEST_SOURCE} $<TARGET_OBJECTS:testframework>)
         target_link_libraries(${TEST_TARGET}
